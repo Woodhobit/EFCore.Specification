@@ -13,25 +13,17 @@ namespace Demo.DAL
 
         private IDbContextTransaction transaction;
 
-        public ApplicationContext()
-        {
-            Database.EnsureCreated();
-        }
-
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=AppStore;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            modelBuilder.Entity<Invoice>().HasMany(x => x.Lines).WithOne();
         }
 
         public void BeginTransaction()

@@ -5,18 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Demo.DAL.Repository
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly DbContext context;
+        private readonly ApplicationContext context;
 
         private readonly DbSet<T> entities;
 
-        public Repository(DbContext context)
+        public Repository(ApplicationContext context)
         {
             this.context = context;
             this.entities = this.context.Set<T>();
