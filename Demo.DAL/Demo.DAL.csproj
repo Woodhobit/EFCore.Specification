@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Specification\Specification.csproj" />
+  </ItemGroup>
+
 </Project>
