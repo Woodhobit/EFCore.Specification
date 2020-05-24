@@ -96,23 +96,26 @@ namespace Demo.BLL.Managers
 
         public async Task<List<PaidInvoiceDto>> GetAllUnPaidInvoices(string customer, DateTime? dueDate)
         {
-            UnpaidInvoiceSpecification unpaidInvoice = new UnpaidInvoiceSpecification();
+            var orderByDate = new InvoiceOrderedByDateSpecification(null);
+            var unpaidInvoice = new UnpaidInvoiceSpecification();
             InvoiceByCustomerSpecification invoiceByCustomer;
             InvoiceDueDateSpecification dueDateInvoice;
 
-            IReadOnlyCollection<Invoice> result = null;
+            var queryBuilder = new QueryBuilder.QueryBuilder<Invoice>();
+            queryBuilder.AddOrderBy(orderByDate);
+
 
             if (string.IsNullOrEmpty(customer) && dueDate == null)
             {
-                result = await this.repository.GetAsync(unpaidInvoice);
+                queryBuilder.AddFilter(unpaidInvoice);
             }
 
             if (!string.IsNullOrEmpty(customer) && dueDate == null)
             {
                 invoiceByCustomer = new InvoiceByCustomerSpecification(customer);
-                var unpaidIvoiceByCustomerOrderedByDate = new InvoiceOrderedByDateSpecification(unpaidInvoice.And(invoiceByCustomer));
+                var unpaidIvoiceByCustomer = unpaidInvoice.And(invoiceByCustomer);
 
-                result = await this.repository.GetAsync(unpaidIvoiceByCustomerOrderedByDate);
+                queryBuilder.AddFilter(unpaidIvoiceByCustomer);
             }
 
             if (!string.IsNullOrEmpty(customer) && dueDate.HasValue)
@@ -121,17 +124,19 @@ namespace Demo.BLL.Managers
                 dueDateInvoice = new InvoiceDueDateSpecification(dueDate.Value);
                 var updaidIvoiceByCustomerAndDueDate = unpaidInvoice.And(invoiceByCustomer).And(dueDateInvoice);
 
-                result = await this.repository.GetAsync(updaidIvoiceByCustomerAndDueDate);
+                queryBuilder.AddFilter(updaidIvoiceByCustomerAndDueDate);
             }
-
-            return result.Select(x => new PaidInvoiceDto
-            {
-                Id = x.Id,
-                Date = x.Date,
-                DueDate = x.DueDate,
-                Customer = x.Customer.Name, // ToDo LazyLoading
-                Number = x.InvoiceNo
-            }).ToList();
+            var result = await this.repository.QueryAsync(queryBuilder.GetQuery());
+            return result
+                .Select(x => new PaidInvoiceDto
+                {
+                        Id = x.Id,
+                        Date = x.Date,
+                        DueDate = x.DueDate,
+                        Customer = x.Customer.Name, // ToDo LazyLoading
+                        Number = x.InvoiceNo
+                })
+                .ToList();
         }
 
         public Task<List<InvoiceOverviewDto>> GetAllInvoices()

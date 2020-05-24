@@ -1,4 +1,5 @@
 ﻿using Demo.DAL.Models;
+using QueryBuilder;
 using Specification.Contract;
 using System;
 using System.Collections.Generic;
@@ -11,30 +12,19 @@ namespace Demo.DAL.Contracts
     public interface IRepository<T> where T : BaseEntity
     {
         void AddOrUpdate(T entity);
-
         T Get(long id);
-
         Task<T> GetAsync(long id);
-
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
-
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
-
         IQueryable<T> GetAll();
-
         IQueryable<T> Where(Expression<Func<T, bool>> predicate);
-
         IQueryable<T> GetPerPage(int perPage, int pageNumber);
-
         void Remove(T entity);
-
         void RemoveRange(IEnumerable<T> entity);
-
         void SaveChanges();
-
         Task SaveChangesAsync();
-
         IReadOnlyCollection<T> Get(ISpecification<T> specification);
         Task<IReadOnlyCollection<T>> GetAsync(ISpecification<T> specification);
+        Task<IList<T>> QueryAsync(Query<T> query);
     }
 }

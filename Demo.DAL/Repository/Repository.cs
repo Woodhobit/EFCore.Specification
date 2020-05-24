@@ -1,6 +1,8 @@
 ﻿using Demo.DAL.Contracts;
 using Demo.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using QueryBuilder;
+using QueryBuilder.Extensions;
 using Specification.Contract;
 using System;
 using System.Collections.Generic;
@@ -126,6 +128,13 @@ namespace Demo.DAL.Repository
             }
 
             return await query.ToListAsync();
+        }
+
+        public async Task<IList<T>> QueryAsync(Query<T> query)
+        {
+            return await this.entities.AsQueryable<T>()
+                .EvaluateQuery(query)
+                .ToListAsync();
         }
     }
 }
