@@ -1,6 +1,5 @@
 ﻿using Specification.Contract;
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace QueryBuilder
@@ -12,8 +11,6 @@ namespace QueryBuilder
 
         public Expression<Func<T, object>> OrderBy { get; private set; }
         //   public Expression<Func<T, object>> OrderByDescending { get; }
-
-        //  public Expression<Func<T, TResult>> Selector<TResult> { get; }
 
         public virtual void AddFilter(ISpecification<T> specification)
         {

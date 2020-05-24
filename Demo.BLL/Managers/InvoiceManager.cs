@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Demo.BLL.Managers
@@ -19,11 +20,11 @@ namespace Demo.BLL.Managers
             this.repository = repository;
         }
 
-        public Task<List<PaidInvoiceDto>> GetAllPaidInvoices()
+        public Task<List<InvoiceDto>> GetAllPaidInvoices()
         {
             return this.repository.GetAll()
                 .Where(x => x.IsPaid == true)
-                .Select(x => new PaidInvoiceDto
+                .Select(x => new InvoiceDto
                 {
                     Id = x.Id,
                     Date = x.Date,
@@ -34,11 +35,11 @@ namespace Demo.BLL.Managers
                 .ToListAsync();
         }
 
-        public Task<List<PaidInvoiceDto>> GetAllPaidInvoicesByCustomer(string customer)
+        public Task<List<InvoiceDto>> GetAllPaidInvoicesByCustomer(string customer)
         {
             return this.repository.GetAll()
                 .Where(x => x.IsPaid == true && x.Customer.Name.Contains(customer))
-                .Select(x => new PaidInvoiceDto
+                .Select(x => new InvoiceDto
                 {
                     Id = x.Id,
                     Date = x.Date,
@@ -49,11 +50,11 @@ namespace Demo.BLL.Managers
                 .ToListAsync();
         }
 
-        public Task<List<PaidInvoiceDto>> GetAllUnPaidInvoices()
+        public Task<List<InvoiceDto>> GetAllUnPaidInvoices()
         {
             return this.repository.GetAll()
                 .Where(x => x.IsPaid == false)
-                .Select(x => new PaidInvoiceDto
+                .Select(x => new InvoiceDto
                 {
                     Id = x.Id,
                     Date = x.Date,
@@ -64,11 +65,11 @@ namespace Demo.BLL.Managers
                 .ToListAsync();
         }
 
-        public Task<List<PaidInvoiceDto>> GetAllUnPaidInvoicesByCustomer(string customer)
+        public Task<List<InvoiceDto>> GetAllUnPaidInvoicesByCustomer(string customer)
         {
             return this.repository.GetAll()
                 .Where(x => x.IsPaid == false && x.Customer.Name.Contains(customer))
-                .Select(x => new PaidInvoiceDto
+                .Select(x => new InvoiceDto
                 {
                     Id = x.Id,
                     Date = x.Date,
@@ -79,11 +80,11 @@ namespace Demo.BLL.Managers
                 .ToListAsync();
         }
 
-        public Task<List<PaidInvoiceDto>> GetAllUnPaidInvoicesByCustomerDueDate(string customer, DateTime dueDate)
+        public Task<List<InvoiceDto>> GetAllUnPaidInvoicesByCustomerDueDate(string customer, DateTime dueDate)
         {
             return this.repository.GetAll()
                 .Where(x => x.IsPaid == false && x.Customer.Name.Contains(customer) && x.DueDate == dueDate)
-                .Select(x => new PaidInvoiceDto
+                .Select(x => new InvoiceDto
                 {
                     Id = x.Id,
                     Date = x.Date,
@@ -94,15 +95,18 @@ namespace Demo.BLL.Managers
                 .ToListAsync();
         }
 
-        public async Task<List<PaidInvoiceDto>> GetAllUnPaidInvoices(string customer, DateTime? dueDate)
+        public async Task<List<InvoiceDto>> GetAllUnPaidInvoices(string customer, DateTime? dueDate)
         {
-            var orderByDate = new InvoiceOrderedByDateSpecification(null);
-            var unpaidInvoice = new UnpaidInvoiceSpecification();
             InvoiceByCustomerSpecification invoiceByCustomer;
             InvoiceDueDateSpecification dueDateInvoice;
 
-            var queryBuilder = new QueryBuilder.QueryBuilder<Invoice>();
+            var orderByDate = new InvoiceOrderedByDateSpecification(null);
+            var unpaidInvoice = new UnpaidInvoiceSpecification();
+            var selectExpression = new SelectInvoiceSpecification();
+
+            var queryBuilder = new QueryBuilder.QueryWithProjectionBuilder<Invoice, InvoiceDto>();
             queryBuilder.AddOrderBy(orderByDate);
+            queryBuilder.AddSelector(selectExpression);
 
 
             if (string.IsNullOrEmpty(customer) && dueDate == null)
@@ -127,16 +131,8 @@ namespace Demo.BLL.Managers
                 queryBuilder.AddFilter(updaidIvoiceByCustomerAndDueDate);
             }
             var result = await this.repository.QueryAsync(queryBuilder.GetQuery());
-            return result
-                .Select(x => new PaidInvoiceDto
-                {
-                        Id = x.Id,
-                        Date = x.Date,
-                        DueDate = x.DueDate,
-                        Customer = x.Customer.Name, // ToDo LazyLoading
-                        Number = x.InvoiceNo
-                })
-                .ToList();
+
+            return result;
         }
 
         public Task<List<InvoiceOverviewDto>> GetAllInvoices()

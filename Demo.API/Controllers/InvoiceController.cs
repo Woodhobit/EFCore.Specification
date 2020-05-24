@@ -34,7 +34,7 @@ namespace Demo.API.Controllers
         }
 
         [HttpGet("Unpaid")]
-        public async Task<ActionResult<List<PaidInvoiceDto>>> GetUnpaid(
+        public async Task<ActionResult<List<InvoiceDto>>> GetUnpaid(
             [FromQuery] DateTime? dueDate,
             [FromQuery] string customer = null)
         {
@@ -52,7 +52,7 @@ namespace Demo.API.Controllers
         }
 
         [HttpGet("v2/Unpaid")]
-        public async Task<ActionResult<List<PaidInvoiceDto>>> GetUnpaidNew(
+        public async Task<ActionResult<List<InvoiceDto>>> GetUnpaidNew(
             [FromQuery] DateTime? dueDate,
             [FromQuery] string customer = null)
         {

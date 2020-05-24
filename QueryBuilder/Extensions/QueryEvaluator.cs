@@ -20,5 +20,12 @@ namespace QueryBuilder.Extensions
 
             return inputQuery;
         }
+
+        public static IQueryable<TResult> EvaluateQuery<T, TResult>(this IQueryable<T> inputQuery, QueryWithProjection<T, TResult> query)
+        {
+            inputQuery = EvaluateQuery<T>(inputQuery, query);
+
+            return inputQuery.Select(query.Selector);
+        }
     }
 }

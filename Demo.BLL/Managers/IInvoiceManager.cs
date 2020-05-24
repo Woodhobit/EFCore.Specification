@@ -9,11 +9,11 @@ namespace Demo.BLL.Managers
     {
         Task<List<InvoiceOverviewDto>> GetAllInvoices();
         Task<List<InvoiceOverviewDto>> GetAllInvoicesByCustomer(string customer);
-        Task<List<PaidInvoiceDto>> GetAllPaidInvoices();
-        Task<List<PaidInvoiceDto>> GetAllPaidInvoicesByCustomer(string customer);
-        Task<List<PaidInvoiceDto>> GetAllUnPaidInvoices();
-        Task<List<PaidInvoiceDto>> GetAllUnPaidInvoicesByCustomer(string customer);
-        Task<List<PaidInvoiceDto>> GetAllUnPaidInvoicesByCustomerDueDate(string customer, DateTime dueDate);
-        Task<List<PaidInvoiceDto>> GetAllUnPaidInvoices(string customer, DateTime? dueDate);
+        Task<List<InvoiceDto>> GetAllPaidInvoices();
+        Task<List<InvoiceDto>> GetAllPaidInvoicesByCustomer(string customer);
+        Task<List<InvoiceDto>> GetAllUnPaidInvoices();
+        Task<List<InvoiceDto>> GetAllUnPaidInvoicesByCustomer(string customer);
+        Task<List<InvoiceDto>> GetAllUnPaidInvoicesByCustomerDueDate(string customer, DateTime dueDate);
+        Task<List<InvoiceDto>> GetAllUnPaidInvoices(string customer, DateTime? dueDate);
     }
 }

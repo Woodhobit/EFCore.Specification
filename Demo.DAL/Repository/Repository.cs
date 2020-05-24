@@ -108,29 +108,20 @@ namespace Demo.DAL.Repository
             this.context.SaveChanges();
         }
 
-        public IReadOnlyCollection<T> Get(ISpecification<T> specification)
+        public IQueryable<T> Get(ISpecification<T> specification)
         {
             return this.entities
-                .Where(specification.ToExpression())
-                .ToList();
-        }
-
-        public async Task<IReadOnlyCollection<T>> GetAsync(ISpecification<T> specification)
-        {
-            var filter = specification.ToExpression();
-            var query = this.entities
-                .Where(filter);
-
-            var orderBySpecification = specification as OrderBySpecification<T>;
-            if (orderBySpecification != null)
-            {
-                query = query.OrderBy(orderBySpecification.ToOrderByExpression());
-            }
-
-            return await query.ToListAsync();
+                .Where(specification.ToExpression());
         }
 
         public async Task<IList<T>> QueryAsync(Query<T> query)
+        {
+            return await this.entities.AsQueryable<T>()
+                .EvaluateQuery(query)
+                .ToListAsync();
+        }
+
+        public async Task<List<TResult>> QueryAsync<TResult>(QueryWithProjection<T, TResult> query)
         {
             return await this.entities.AsQueryable<T>()
                 .EvaluateQuery(query)

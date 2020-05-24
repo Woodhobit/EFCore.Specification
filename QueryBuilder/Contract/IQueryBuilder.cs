@@ -7,7 +7,6 @@ namespace QueryBuilder.Contract
         IQueryBuilder<T> AddFilter(ISpecification<T> specification);
         IQueryBuilder<T> AddOrderBy(ISpecification<T> specification);
         //  IQueryBuilder AddInclude();
-        // IQueryBuilder<T> AddSelector();
         Query<T> GetQuery();
     }
 }

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Demo.BLL.DTO
 {
-    public class PaidInvoiceDto
+    public class InvoiceDto
     {
         public long Id { get; set; }
         public DateTime Date { get; set; }
