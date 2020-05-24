@@ -1,6 +1,7 @@
 ﻿using Demo.DAL.Contracts;
 using Demo.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using Specification.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,6 +104,20 @@ namespace Demo.DAL.Repository
             }
 
             this.context.SaveChanges();
+        }
+
+        public IReadOnlyCollection<T> Get(Specification<T> specification)
+        {
+            return this.entities
+                .Where(specification.ToExpression())
+                .ToList();
+        }
+
+        public async Task<IReadOnlyCollection<T>> GetAsync(Specification<T> specification)
+        {
+            return await this.entities
+                .Where(specification.ToExpression())
+                .ToListAsync();
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Demo.BLL.Managers
         Task<List<PaidInvoiceDto>> GetAllUnPaidInvoices();
         Task<List<PaidInvoiceDto>> GetAllUnPaidInvoicesByCustomer(string customer);
         Task<List<PaidInvoiceDto>> GetAllUnPaidInvoicesByCustomerDueDate(string customer, DateTime dueDate);
+        Task<List<PaidInvoiceDto>> GetAllUnPaidInvoices(string customer, DateTime? dueDate);
     }
 }

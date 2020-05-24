@@ -1,4 +1,5 @@
 ﻿using Demo.BLL.DTO;
+using Demo.BLL.Specifications.Invoices;
 using Demo.DAL.Contracts;
 using Demo.DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -91,6 +92,46 @@ namespace Demo.BLL.Managers
                     Number = x.InvoiceNo
                 })
                 .ToListAsync();
+        }
+
+        public async Task<List<PaidInvoiceDto>> GetAllUnPaidInvoices(string customer, DateTime? dueDate)
+        {
+            UnpaidInvoiceSpecification unpaidInvoice = new UnpaidInvoiceSpecification();
+            InvoiceByCustomerSpecification invoiceByCustomer;
+            InvoiceDueDateSpecification dueDateInvoice;
+
+            IReadOnlyCollection<Invoice> result = null;
+
+            if (string.IsNullOrEmpty(customer) && dueDate == null)
+            {
+                result = await this.repository.GetAsync(unpaidInvoice);
+            }
+
+            if (!string.IsNullOrEmpty(customer) && dueDate == null)
+            {
+                invoiceByCustomer = new InvoiceByCustomerSpecification(customer);
+                var updaidIvoiceByCustomer = unpaidInvoice.And(invoiceByCustomer);
+
+                result = await this.repository.GetAsync(updaidIvoiceByCustomer);
+            }
+
+            if (!string.IsNullOrEmpty(customer) && dueDate.HasValue)
+            {
+                invoiceByCustomer = new InvoiceByCustomerSpecification(customer);
+                dueDateInvoice = new InvoiceDueDateSpecification(dueDate.Value);
+                var updaidIvoiceByCustomerAndDueDate = unpaidInvoice.And(invoiceByCustomer).And(dueDateInvoice);
+
+                result = await this.repository.GetAsync(updaidIvoiceByCustomerAndDueDate);
+            }
+
+            return result.Select(x => new PaidInvoiceDto
+            {
+                Id = x.Id,
+                Date = x.Date,
+                DueDate = x.DueDate,
+                Customer = x.Customer.Name,
+                Number = x.InvoiceNo
+            }).ToList();
         }
 
         public Task<List<InvoiceOverviewDto>> GetAllInvoices()

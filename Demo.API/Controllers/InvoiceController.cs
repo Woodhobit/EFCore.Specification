@@ -50,5 +50,13 @@ namespace Demo.API.Controllers
 
             return Ok(await this.invoiceManager.GetAllUnPaidInvoicesByCustomerDueDate(customer, dueDate.Value));
         }
+
+        [HttpGet("v2/Unpaid")]
+        public async Task<ActionResult<List<PaidInvoiceDto>>> GetUnpaidNew(
+            [FromQuery] DateTime? dueDate,
+            [FromQuery] string customer = null)
+        {
+            return Ok(await this.invoiceManager.GetAllUnPaidInvoices(customer, dueDate.Value));
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Demo.DAL.Models;
+using Specification.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,5 +33,8 @@ namespace Demo.DAL.Contracts
         void SaveChanges();
 
         Task SaveChangesAsync();
+
+        IReadOnlyCollection<T> Get(Specification<T> specification);
+        Task<IReadOnlyCollection<T>> GetAsync(Specification<T> specification);
     }
 }
