@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Demo.BLL.Specifications.Invoices
 {
-    class InvoiceByCustomerSpecification : Specification<Invoice>
+    class InvoiceByCustomerSpecification : CompositeSpecification<Invoice>
     {
         private readonly string customer;
 
@@ -16,7 +16,7 @@ namespace Demo.BLL.Specifications.Invoices
 
         public override Expression<Func<Invoice, bool>> ToExpression()
         {
-            return invoice => invoice.Customer.Name.Contains(this.customer);
+            return invoice => invoice.Customer.Name == this.customer;
         }
     }
 }

@@ -110,9 +110,9 @@ namespace Demo.BLL.Managers
             if (!string.IsNullOrEmpty(customer) && dueDate == null)
             {
                 invoiceByCustomer = new InvoiceByCustomerSpecification(customer);
-                var updaidIvoiceByCustomer = unpaidInvoice.And(invoiceByCustomer);
+                var unpaidIvoiceByCustomerOrderedByDate = new InvoiceOrderedByDateSpecification(unpaidInvoice.And(invoiceByCustomer));
 
-                result = await this.repository.GetAsync(updaidIvoiceByCustomer);
+                result = await this.repository.GetAsync(unpaidIvoiceByCustomerOrderedByDate);
             }
 
             if (!string.IsNullOrEmpty(customer) && dueDate.HasValue)
@@ -129,7 +129,7 @@ namespace Demo.BLL.Managers
                 Id = x.Id,
                 Date = x.Date,
                 DueDate = x.DueDate,
-                Customer = x.Customer.Name,
+                Customer = x.Customer.Name, // ToDo LazyLoading
                 Number = x.InvoiceNo
             }).ToList();
         }

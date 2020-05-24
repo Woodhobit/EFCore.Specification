@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Demo.BLL.Specifications.Invoices
 {
-    class PaidInvoiceSpecification : Specification<Invoice>
+    class PaidInvoiceSpecification : CompositeSpecification<Invoice>
     {
         public override Expression<Func<Invoice, bool>> ToExpression()
         {

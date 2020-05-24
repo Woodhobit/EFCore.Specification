@@ -34,7 +34,7 @@ namespace Demo.DAL.Contracts
 
         Task SaveChangesAsync();
 
-        IReadOnlyCollection<T> Get(Specification<T> specification);
-        Task<IReadOnlyCollection<T>> GetAsync(Specification<T> specification);
+        IReadOnlyCollection<T> Get(ISpecification<T> specification);
+        Task<IReadOnlyCollection<T>> GetAsync(ISpecification<T> specification);
     }
 }

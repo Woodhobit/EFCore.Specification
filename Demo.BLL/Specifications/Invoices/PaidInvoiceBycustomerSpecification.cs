@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Demo.BLL.Specifications.Invoices
 {
-    class PaidInvoiceBycustomerSpecification : Specification<Invoice>
+    class PaidInvoiceBycustomerSpecification : CompositeSpecification<Invoice>
     {
         private readonly string customer;
         public PaidInvoiceBycustomerSpecification(string customer)
@@ -16,7 +16,7 @@ namespace Demo.BLL.Specifications.Invoices
         }
         public override Expression<Func<Invoice, bool>> ToExpression()
         {
-            return invoice => invoice.IsPaid == true && invoice.Customer.Name.Contains(this.customer);
+            return invoice => invoice.IsPaid == true && invoice.Customer.Name == this.customer;
         }
     }
 }

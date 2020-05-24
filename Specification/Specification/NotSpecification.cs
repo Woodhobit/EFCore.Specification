@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 
 namespace Specification.Contract
 {
-    public class NotSpecification<T> : Specification<T>
+    public class NotSpecification<T> : CompositeSpecification<T>
     {
-        private readonly Specification<T> specification;
+        private readonly CompositeSpecification<T> specification;
 
-        public NotSpecification(Specification<T> specification)
+        public NotSpecification(CompositeSpecification<T> specification)
         {
             this.specification = specification;
         }

@@ -106,18 +106,26 @@ namespace Demo.DAL.Repository
             this.context.SaveChanges();
         }
 
-        public IReadOnlyCollection<T> Get(Specification<T> specification)
+        public IReadOnlyCollection<T> Get(ISpecification<T> specification)
         {
             return this.entities
                 .Where(specification.ToExpression())
                 .ToList();
         }
 
-        public async Task<IReadOnlyCollection<T>> GetAsync(Specification<T> specification)
+        public async Task<IReadOnlyCollection<T>> GetAsync(ISpecification<T> specification)
         {
-            return await this.entities
-                .Where(specification.ToExpression())
-                .ToListAsync();
+            var filter = specification.ToExpression();
+            var query = this.entities
+                .Where(filter);
+
+            var orderBySpecification = specification as OrderBySpecification<T>;
+            if (orderBySpecification != null)
+            {
+                query = query.OrderBy(orderBySpecification.ToOrderByExpression());
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

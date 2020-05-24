@@ -3,19 +3,19 @@ using System.Linq.Expressions;
 
 namespace Specification.Contract
 {
-    public abstract class Specification<T>
+    public abstract class CompositeSpecification<T> : ISpecification<T>
     {
         public abstract Expression<Func<T, bool>> ToExpression();
 
-        public Specification<T> And(Specification<T> specification)
+        public CompositeSpecification<T> And(CompositeSpecification<T> specification)
         {
             return new AndSpecification<T>(this, specification);
         }
-        public Specification<T> Or(Specification<T> specification)
+        public CompositeSpecification<T> Or(CompositeSpecification<T> specification)
         {
             return new OrSpecification<T>(this, specification);
         }
-        public Specification<T> Not(Specification<T> specification)
+        public CompositeSpecification<T> Not(CompositeSpecification<T> specification)
         {
             return new NotSpecification<T>(specification);
         }

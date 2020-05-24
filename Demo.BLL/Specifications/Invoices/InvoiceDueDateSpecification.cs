@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Demo.BLL.Specifications.Invoices
 {
-    class InvoiceDueDateSpecification : Specification<Invoice>
+    class InvoiceDueDateSpecification : CompositeSpecification<Invoice>
     {
         private readonly DateTime dueDate;
 

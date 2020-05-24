@@ -56,7 +56,7 @@ namespace Demo.API.Controllers
             [FromQuery] DateTime? dueDate,
             [FromQuery] string customer = null)
         {
-            return Ok(await this.invoiceManager.GetAllUnPaidInvoices(customer, dueDate.Value));
+            return Ok(await this.invoiceManager.GetAllUnPaidInvoices(customer, dueDate));
         }
     }
 }
