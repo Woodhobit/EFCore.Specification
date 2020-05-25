@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using QueryBuilder.Query;
+using System.Linq;
 
 namespace QueryBuilder.Extensions
 {
@@ -6,8 +7,6 @@ namespace QueryBuilder.Extensions
     {
         public static IQueryable<T> EvaluateQuery<T>(this IQueryable<T> inputQuery, Query<T> query)
         {
-
-            // modify the IQueryable using the query's filter expression
             if (query.Filter != null)
             {
                 inputQuery = inputQuery.Where(query.Filter);
@@ -16,6 +15,19 @@ namespace QueryBuilder.Extensions
             if (query.OrderBy != null)
             {
                 inputQuery = inputQuery.OrderBy(query.OrderBy);
+            }
+
+            if (query.OrderByDescending != null)
+            {
+                inputQuery = inputQuery.OrderByDescending(query.OrderByDescending);
+            }
+
+            if (query.Includes.Any())
+            {
+                foreach (var includeExp in query.Includes)
+                {
+                    query.Include(includeExp);
+                }
             }
 
             return inputQuery;

@@ -1,7 +1,10 @@
 ﻿using QueryBuilder.Contract;
+using QueryBuilder.Query;
 using Specification.Contract;
+using System;
+using System.Linq.Expressions;
 
-namespace QueryBuilder
+namespace QueryBuilder.Builder
 {
     public class QueryBuilder<T> : IQueryBuilder<T>
     {
@@ -26,6 +29,18 @@ namespace QueryBuilder
         public IQueryBuilder<T> AddOrderBy(OrderBySpecification<T> specification)
         {
             this.query.AddOrderBy(specification);
+            return this;
+        }
+
+        public IQueryBuilder<T> AddOrderByDescending(OrderBySpecification<T> specification)
+        {
+            this.query.AddOrderByDescending(specification);
+            return this;
+        }
+
+        public IQueryBuilder<T> Include(Expression<Func<T, object>> includeExpression)
+        {
+            this.query.Include(includeExpression);
             return this;
         }
 

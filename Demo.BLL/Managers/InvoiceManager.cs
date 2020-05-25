@@ -3,7 +3,7 @@ using Demo.BLL.Specifications.Invoices;
 using Demo.DAL.Contracts;
 using Demo.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using QueryBuilder;
+using QueryBuilder.Builder;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,6 @@
 ﻿using Demo.DAL.Models;
 using QueryBuilder;
+using QueryBuilder.Query;
 using Specification.Contract;
 using System;
 using System.Collections.Generic;

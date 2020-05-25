@@ -1,4 +1,7 @@
-﻿using Specification.Contract;
+﻿using QueryBuilder.Query;
+using Specification.Contract;
+using System;
+using System.Linq.Expressions;
 
 namespace QueryBuilder.Contract
 {
@@ -6,7 +9,8 @@ namespace QueryBuilder.Contract
     {
         IQueryBuilder<T> AddFilter(CompositeSpecification<T> specification);
         IQueryBuilder<T> AddOrderBy(OrderBySpecification<T> specification);
-        //  IQueryBuilder AddInclude();
+        IQueryBuilder<T> AddOrderByDescending(OrderBySpecification<T> specification);
+        IQueryBuilder<T> Include(Expression<Func<T, object>> includeExpression);
         Query<T> GetQuery();
     }
 }

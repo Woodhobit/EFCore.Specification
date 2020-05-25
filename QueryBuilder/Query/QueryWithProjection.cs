@@ -1,8 +1,9 @@
-﻿using Specification.Contract;
+﻿using QueryBuilder.Query;
+using Specification.Contract;
 using System;
 using System.Linq.Expressions;
 
-namespace QueryBuilder
+namespace QueryBuilder.Query
 {
     public class QueryWithProjection<T, TResult> : Query<T>
     {

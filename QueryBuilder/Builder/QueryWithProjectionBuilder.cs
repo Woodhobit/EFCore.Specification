@@ -1,7 +1,7 @@
-﻿using QueryBuilder.Contract;
+﻿using QueryBuilder.Query;
 using Specification.Contract;
 
-namespace QueryBuilder
+namespace QueryBuilder.Builder
 {
     public class QueryWithProjectionBuilder<T, TResult> 
     {
@@ -26,6 +26,12 @@ namespace QueryBuilder
         public QueryWithProjectionBuilder<T, TResult> AddOrderBy(OrderBySpecification<T> specification)
         {
             this.query.AddOrderBy(specification);
+            return this;
+        }
+
+        public QueryWithProjectionBuilder<T, TResult> AddOrderByDescending(OrderBySpecification<T> specification)
+        {
+            this.query.AddOrderByDescending(specification);
             return this;
         }
 

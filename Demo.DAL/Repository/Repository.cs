@@ -3,6 +3,7 @@ using Demo.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using QueryBuilder;
 using QueryBuilder.Extensions;
+using QueryBuilder.Query;
 using Specification.Contract;
 using System;
 using System.Collections.Generic;
