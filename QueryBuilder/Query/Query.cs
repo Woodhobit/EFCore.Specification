@@ -29,7 +29,7 @@ namespace QueryBuilder.Query
 
         public virtual void AddOrderByDescending(OrderBySpecification<T> specification)
         {
-            this.OrderBy = specification.ToOrderByExpression();
+            this.OrderByDescending = specification.ToOrderByExpression();
         }
 
         public virtual void Include(Expression<Func<T, object>> includeExpression)

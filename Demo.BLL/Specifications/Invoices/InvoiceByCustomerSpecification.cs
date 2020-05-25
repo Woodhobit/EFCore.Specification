@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Demo.BLL.Specifications.Invoices
 {
-    class InvoiceByCustomerSpecification : CompositeSpecification<Invoice>
+    public class InvoiceByCustomerSpecification : CompositeSpecification<Invoice>
     {
         private readonly string customer;
 

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Demo.BLL.Specifications.Invoices
 {
-    class PaidInvoiceBycustomerSpecification : CompositeSpecification<Invoice>
+    public class PaidInvoiceBycustomerSpecification : CompositeSpecification<Invoice>
     {
         private readonly string customer;
         public PaidInvoiceBycustomerSpecification(string customer)
