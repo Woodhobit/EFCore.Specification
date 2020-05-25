@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Specification.Specification;
+using System;
 using System.Linq.Expressions;
 
 namespace Specification.Contract
 {
-    public abstract class CompositeSpecification<T> : ISpecification<T>
+    public abstract class CompositeSpecification<T>
     {
         public abstract Expression<Func<T, bool>> ToExpression();
 

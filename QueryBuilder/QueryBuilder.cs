@@ -12,18 +12,18 @@ namespace QueryBuilder
             this.query = new Query<T>();
         }
 
-        public QueryBuilder(ISpecification<T> specification): base()
+        public QueryBuilder(CompositeSpecification<T> specification): base()
         {
             this.query.AddFilter(specification);
         }
 
-        public IQueryBuilder<T> AddFilter(ISpecification<T> specification)
+        public IQueryBuilder<T> AddFilter(CompositeSpecification<T> specification)
         {
             this.query.AddFilter(specification);
             return this;
         }
 
-        public IQueryBuilder<T> AddOrderBy(ISpecification<T> specification)
+        public IQueryBuilder<T> AddOrderBy(OrderBySpecification<T> specification)
         {
             this.query.AddOrderBy(specification);
             return this;

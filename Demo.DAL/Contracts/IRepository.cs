@@ -23,7 +23,7 @@ namespace Demo.DAL.Contracts
         void RemoveRange(IEnumerable<T> entity);
         void SaveChanges();
         Task SaveChangesAsync();
-        IQueryable<T> Get(ISpecification<T> specification);
+        IQueryable<T> Get(CompositeSpecification<T> specification);
         Task<IList<T>> QueryAsync(Query<T> query);
         Task<List<TResult>> QueryAsync<TResult>(QueryWithProjection<T, TResult> query);
     }

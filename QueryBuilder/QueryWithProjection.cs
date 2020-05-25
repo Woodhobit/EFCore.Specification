@@ -1,4 +1,4 @@
-﻿using QueryBuilder.Contract;
+﻿using Specification.Contract;
 using System;
 using System.Linq.Expressions;
 
@@ -8,7 +8,7 @@ namespace QueryBuilder
     {
         public Expression<Func<T, TResult>> Selector { get; private set; }
 
-        public virtual void AddSelector(IQueryProjection<T, TResult> specification)
+        public virtual void AddSelector(QueryProjection<T, TResult> specification)
         {
             this.Selector = specification.ToSelectExpression();
         }

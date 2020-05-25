@@ -108,7 +108,7 @@ namespace Demo.DAL.Repository
             this.context.SaveChanges();
         }
 
-        public IQueryable<T> Get(ISpecification<T> specification)
+        public IQueryable<T> Get(CompositeSpecification<T> specification)
         {
             return this.entities
                 .Where(specification.ToExpression());

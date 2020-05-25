@@ -3,10 +3,10 @@ using Demo.BLL.Specifications.Invoices;
 using Demo.DAL.Contracts;
 using Demo.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using QueryBuilder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Demo.BLL.Managers
@@ -100,13 +100,11 @@ namespace Demo.BLL.Managers
             InvoiceByCustomerSpecification invoiceByCustomer;
             InvoiceDueDateSpecification dueDateInvoice;
 
-            var orderByDate = new InvoiceOrderedByDateSpecification(null);
+            var orderByDate = new InvoiceOrderedByDateSpecification();
             var unpaidInvoice = new UnpaidInvoiceSpecification();
-            var selectExpression = new SelectInvoiceSpecification();
 
-            var queryBuilder = new QueryBuilder.QueryWithProjectionBuilder<Invoice, InvoiceDto>();
-            queryBuilder.AddOrderBy(orderByDate);
-            queryBuilder.AddSelector(selectExpression);
+            var queryBuilder = new QueryWithProjectionBuilder<Invoice, InvoiceDto>();
+            queryBuilder.AddOrderBy(orderByDate).AddSelector(new SelectInvoiceSpecification());
 
 
             if (string.IsNullOrEmpty(customer) && dueDate == null)
@@ -130,6 +128,7 @@ namespace Demo.BLL.Managers
 
                 queryBuilder.AddFilter(updaidIvoiceByCustomerAndDueDate);
             }
+
             var result = await this.repository.QueryAsync(queryBuilder.GetQuery());
 
             return result;

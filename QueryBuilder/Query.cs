@@ -12,17 +12,14 @@ namespace QueryBuilder
         public Expression<Func<T, object>> OrderBy { get; private set; }
         //   public Expression<Func<T, object>> OrderByDescending { get; }
 
-        public virtual void AddFilter(ISpecification<T> specification)
+        public virtual void AddFilter(CompositeSpecification<T> specification)
         {
             this.Filter = specification.ToExpression();
         }
 
-        public virtual void AddOrderBy(ISpecification<T> specification)
+        public virtual void AddOrderBy(OrderBySpecification<T> specification)
         {
-            if (specification is OrderBySpecification<T> orderBySpecification)
-            {
-                this.OrderBy = orderBySpecification.ToOrderByExpression();
-            }
+            this.OrderBy = specification.ToOrderByExpression();
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using Demo.BLL.DTO;
 using Demo.DAL.Models;
-using QueryBuilder.Contract;
+using Specification.Contract;
 using System;
 using System.Linq.Expressions;
 
 namespace Demo.BLL.Specifications.Invoices
 {
-    public class SelectInvoiceSpecification : IQueryProjection<Invoice, InvoiceDto>
+    public class SelectInvoiceSpecification : QueryProjection<Invoice, InvoiceDto>
     {
-        public Expression<Func<Invoice, InvoiceDto>> ToSelectExpression()
+        public override Expression<Func<Invoice, InvoiceDto>> ToSelectExpression()
         {
             Expression<Func<Invoice, InvoiceDto>> selectExpression = invoice => new InvoiceDto
             {

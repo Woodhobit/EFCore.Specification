@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Specification.Contract;
+using System;
 using System.Linq.Expressions;
 
-namespace Specification.Contract
+namespace Specification.Specification
 {
     public class OrSpecification<T> : CompositeSpecification<T>
     {

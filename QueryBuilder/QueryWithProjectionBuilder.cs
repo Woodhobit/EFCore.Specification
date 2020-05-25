@@ -12,24 +12,24 @@ namespace QueryBuilder
             this.query = new QueryWithProjection<T, TResult>();
         }
 
-        public QueryWithProjectionBuilder(ISpecification<T> specification) : base()
+        public QueryWithProjectionBuilder(CompositeSpecification<T> specification) : base()
         {
             this.query.AddFilter(specification);
         }
 
-        public QueryWithProjectionBuilder<T, TResult> AddFilter(ISpecification<T> specification)
+        public QueryWithProjectionBuilder<T, TResult> AddFilter(CompositeSpecification<T> specification)
         {
             this.query.AddFilter(specification);
             return this;
         }
 
-        public QueryWithProjectionBuilder<T, TResult> AddOrderBy(ISpecification<T> specification)
+        public QueryWithProjectionBuilder<T, TResult> AddOrderBy(OrderBySpecification<T> specification)
         {
             this.query.AddOrderBy(specification);
             return this;
         }
 
-        public QueryWithProjectionBuilder<T, TResult> AddSelector(IQueryProjection<T, TResult> specification)
+        public QueryWithProjectionBuilder<T, TResult> AddSelector(QueryProjection<T, TResult> specification)
         {
             this.query.AddSelector(specification);
             return this;
