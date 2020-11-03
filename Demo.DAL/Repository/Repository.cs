@@ -90,6 +90,12 @@ namespace Demo.DAL.Repository
             await this.context.SaveChangesAsync();
         }
 
+        public T Add(T entity)
+        {
+            this.AddOrUpdate(entity);
+            return entity;
+        }
+
         public void AddOrUpdate(T entity)
         {
             if (entity == null)

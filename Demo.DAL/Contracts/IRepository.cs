@@ -13,6 +13,7 @@ namespace Demo.DAL.Contracts
     public interface IRepository<T> where T : BaseEntity
     {
         void AddOrUpdate(T entity);
+        T Add(T entity);
         T Get(long id);
         Task<T> GetAsync(long id);
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
